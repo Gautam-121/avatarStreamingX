@@ -11,7 +11,7 @@ import { ApprikartLogo , XircularLogo} from "./Icons";
 
 export default function NavBar() {
   return (
-    <Navbar className="w-full">
+    <Navbar className="w-full" style={{backgroundColor:'white'}}>
       <NavbarBrand>
         {/* <Link isExternal aria-label="HeyGen" href="https://app.heygen.com/"> */}
           <ApprikartLogo />

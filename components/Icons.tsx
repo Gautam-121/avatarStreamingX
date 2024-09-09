@@ -1,9 +1,9 @@
 export function ApprikartLogo() {
-  return <img src="/logo_Apprikart.png" alt="Apprikart Logo" style={{height:"2rem"}} />;
+  return <img src="/logo_Apprikart.png" alt="Apprikart Logo" style={{height:"2rem",backgroundColor:"white"}} />;
 }
 
 export function XircularLogo() {
-  return <img src="/logo_XIRCULAR.png" alt="Xircular Logo" style={{height:"3rem",marginLeft:"15rem"}} />;
+  return <img src="/logo_XIRCULAR.png" alt="Xircular Logo" style={{height:"3rem",marginLeft:"15rem",backgroundColor:"white"}} />;
 }
 
 type IconSvgProps = {

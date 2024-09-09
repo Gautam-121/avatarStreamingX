@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: `%s - Interactive Avatar Demo`,
   },
   icons: {
-    icon: "/logo_XIRCULAR.png",
+    icon: "/XIRCULAR_white.png",
   },
 };
 
