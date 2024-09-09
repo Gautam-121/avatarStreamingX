@@ -1,5 +1,9 @@
-export function HeyGenLogo() {
-  return <img src="/heygen-logo.png" className="h-8" alt="HeyGen Logo" />;
+export function ApprikartLogo() {
+  return <img src="/logo_Apprikart.png" alt="Apprikart Logo" style={{height:"2rem"}} />;
+}
+
+export function XircularLogo() {
+  return <img src="/logo_XIRCULAR.png" alt="Xircular Logo" style={{height:"3rem",marginLeft:"15rem"}} />;
 }
 
 type IconSvgProps = {
@@ -8,6 +12,7 @@ type IconSvgProps = {
   height?: number;
   className?: string;
 };
+
 
 export function GithubIcon({
   size = 24,
