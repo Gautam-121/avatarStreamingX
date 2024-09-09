@@ -32,7 +32,7 @@ export default function InteractiveAvatarCode() {
             editable={false}
             extensions={[langs.typescript()]}
             height="700px"
-            theme="dark"
+            theme="light"
             value={TEXT}
           />
         </CardBody>
