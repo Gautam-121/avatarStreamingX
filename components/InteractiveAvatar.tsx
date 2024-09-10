@@ -297,14 +297,17 @@ export default function InteractiveAvatar() {
       // return token;
       const dataFromApi = await response.text()
       console.log("data", dataFromApi);
-      await avatar.current
-        .speak({
-          taskRequest: { text: dataFromApi, sessionId: data?.sessionId },
-        })
-        .catch((e) => {
-          setDebug(e.message);
-        });
-      setIsLoadingChat(false);
+      if (avatar.current) {
+        await avatar.current
+          .speak({
+            taskRequest: { text: dataFromApi, sessionId: data?.sessionId },
+          })
+          .catch((e) => {
+            setDebug(e.message);
+          });
+      } else {
+        setDebug("Avatar API not initialized");
+      }
       
     } catch (error) {
       console.error("Error fetching response from AI:", error);
