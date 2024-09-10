@@ -23,10 +23,13 @@ import OpenAI from "openai";
 import { useEffect, useRef, useState } from "react";
 import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
 
-const openai = new OpenAI({
+import Groq from "groq-sdk";
+
+const openai = new Groq({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
+
 
 export default function InteractiveAvatar() {
   const [isSessionActive, setIsSessionActive] = useState(false);
@@ -45,6 +48,7 @@ export default function InteractiveAvatar() {
   const avatar = useRef<StreamingAvatarApi | null>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const audioChunks = useRef<Blob[]>([]);
+  const [newInput, setNewInput] = useState("");
   const { input, setInput, handleSubmit } = useChat({
     onFinish: async (message) => {
       console.log("Response:", message);
@@ -112,9 +116,7 @@ export default function InteractiveAvatar() {
     } catch (error) {
       console.error("Error starting avatar session:", error);
       setDebug(
-        `There was an error starting the session. ${
-          voiceId ? "This custom voice ID may not be supported." : ""
-        }`
+        `There was an error starting the session. ${voiceId ? "This custom voice ID may not be supported." : ""}`
       );
     }
     setIsLoadingSession(false);
@@ -146,6 +148,7 @@ export default function InteractiveAvatar() {
 
     const stopTalkCallback = (e: any) => {
       console.log("Avatar stopped talking", e);
+      setNewInput("")
     };
 
     console.log("Adding event handlers:", avatar.current);
@@ -160,11 +163,15 @@ export default function InteractiveAvatar() {
       setDebug("Avatar API not initialized");
       return;
     }
+    setNewInput("")
     await avatar.current
       .interrupt({ interruptRequest: { sessionId: data?.sessionId } })
+    
       .catch((e) => {
         setDebug(e.message);
+      
       });
+     
   }
 
   async function handleSpeak() {
@@ -243,15 +250,65 @@ export default function InteractiveAvatar() {
       const audioFile = new File([audioBlob], "recording.wav", {
         type: "audio/wav",
       });
+      // const response = await openai.audio.transcriptions.create({
+      //   model: "whisper-1",
+      //   file: audioFile,
+      // });
       const response = await openai.audio.transcriptions.create({
-        model: "whisper-1",
         file: audioFile,
+        model: "whisper-large-v3",
+        prompt: "Specify context or spelling", // Optional
+        response_format: "json", // Optional
+        language: "en", // Optional
+        temperature: 0.0, // Optional
       });
       const transcription = response.text;
       console.log("Transcription: ", transcription);
-      setInput(transcription);
+      setNewInput(transcription);
+      handleGetResponse(transcription)
     } catch (error) {
       console.error("Error transcribing audio:", error);
+    }
+  }
+
+  async function handleGetResponse(inp : string) {
+    console.log("handleGetResponse triggered", newInput, inp);
+    setIsLoadingChat(true)
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Ensure the content type is set to JSON
+        },
+        body: JSON.stringify({ messages: [
+          {
+              "role": "system",
+              "content": "You are a helpful assistant."
+          },
+          {
+              "role": "user",
+              "content": inp ? inp : newInput
+          }
+      ] }),
+      });
+
+
+      console.log("response", response); // Log the token to verify
+      // return token;
+      const dataFromApi = await response.text()
+      console.log("data", dataFromApi);
+      await avatar.current
+        .speak({
+          taskRequest: { text: dataFromApi, sessionId: data?.sessionId },
+        })
+        .catch((e) => {
+          setDebug(e.message);
+        });
+      setIsLoadingChat(false);
+      
+    } catch (error) {
+      console.error("Error fetching response from AI:", error);
+      return "";
     }
   }
 
@@ -362,16 +419,17 @@ export default function InteractiveAvatar() {
             <InteractiveAvatarTextInput
               label=" "
               placeholder="Chat with the avatar"
-              input={input}
+              input={newInput}
               onSubmit={() => {
                 setIsLoadingChat(true);
-                if (!input) {
+                if (!newInput) {
                   setDebug("Please enter text");
                   return;
                 }
-                handleSubmit();
+                // handleSubmit();
+                handleGetResponse();
               }}
-              setInput={setInput}
+              setInput={setNewInput}
               loading={isLoadingChat}
               endContent={
                 <Tooltip
