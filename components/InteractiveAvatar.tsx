@@ -352,7 +352,7 @@ export default function InteractiveAvatar() {
         </CardBody>
         <Divider />
         <CardFooter className="flex flex-col gap-3">
-          <InteractiveAvatarTextInput
+          {/* <InteractiveAvatarTextInput
             label="Repeat"
             placeholder="Type something for the avatar to repeat"
             input={text}
@@ -360,7 +360,7 @@ export default function InteractiveAvatar() {
             setInput={setText}
             disabled={!stream}
             loading={isLoadingRepeat}
-          />
+          /> */}
           <InteractiveAvatarTextInput
             label="Chat"
             placeholder="Chat with the avatar (uses ChatGPT)"
@@ -407,11 +407,11 @@ export default function InteractiveAvatar() {
           />
         </CardFooter>
       </Card>
-      <p className="font-mono text-right">
+      {/* <p className="font-mono text-right">
         <span className="font-bold">Console:</span>
         <br />
         {debug}
-      </p>
+      </p> */}
     </div>
   );
 }

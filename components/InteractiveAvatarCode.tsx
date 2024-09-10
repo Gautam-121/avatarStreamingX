@@ -19,12 +19,12 @@ export default function InteractiveAvatarCode() {
             Interactive Avatar session
           </div>
         </li>
-        <li>
+        {/* <li>
           <div className="flex flex-row gap-2">
             <p className="text-indigo-400 font-semibold">Speak:</p> Repeat the
             input
           </div>
-        </li>
+        </li> */}
       </ul>
       <Card>
         <CardBody>
