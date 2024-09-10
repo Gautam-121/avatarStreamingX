@@ -29,6 +29,7 @@ const openai = new OpenAI({
 });
 
 export default function InteractiveAvatar() {
+  const [isSessionActive, setIsSessionActive] = useState(false);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
   const [isLoadingRepeat, setIsLoadingRepeat] = useState(false);
   const [isLoadingChat, setIsLoadingChat] = useState(false);
@@ -46,7 +47,7 @@ export default function InteractiveAvatar() {
   const audioChunks = useRef<Blob[]>([]);
   const { input, setInput, handleSubmit } = useChat({
     onFinish: async (message) => {
-      console.log("ChatGPT Response:", message);
+      console.log("Response:", message);
 
       if (!initialized || !avatar.current) {
         setDebug("Avatar API not initialized");
@@ -72,6 +73,7 @@ export default function InteractiveAvatar() {
     ],
   });
 
+ 
   async function fetchAccessToken() {
     try {
       const response = await fetch("/api/get-access-token", {
@@ -106,13 +108,29 @@ export default function InteractiveAvatar() {
       );
       setData(res);
       setStream(avatar.current.mediaStream);
+      setIsSessionActive(true); // Set session as active
     } catch (error) {
       console.error("Error starting avatar session:", error);
       setDebug(
-        `There was an error starting the session. ${voiceId ? "This custom voice ID may not be supported." : ""}`
+        `There was an error starting the session. ${
+          voiceId ? "This custom voice ID may not be supported." : ""
+        }`
       );
     }
     setIsLoadingSession(false);
+  }
+
+  async function endSession() {
+    if (!initialized || !avatar.current) {
+      setDebug("Avatar API not initialized");
+      return;
+    }
+    await avatar.current.stopAvatar(
+      { stopSessionRequest: { sessionId: data?.sessionId } },
+      setDebug
+    );
+    setStream(undefined);
+    setIsSessionActive(false); // Set session as inactive
   }
 
   async function updateToken() {
@@ -147,18 +165,6 @@ export default function InteractiveAvatar() {
       .catch((e) => {
         setDebug(e.message);
       });
-  }
-
-  async function endSession() {
-    if (!initialized || !avatar.current) {
-      setDebug("Avatar API not initialized");
-      return;
-    }
-    await avatar.current.stopAvatar(
-      { stopSessionRequest: { sessionId: data?.sessionId } },
-      setDebug
-    );
-    setStream(undefined);
   }
 
   async function handleSpeak() {
@@ -352,59 +358,52 @@ export default function InteractiveAvatar() {
         </CardBody>
         <Divider />
         <CardFooter className="flex flex-col gap-3">
-          {/* <InteractiveAvatarTextInput
-            label="Repeat"
-            placeholder="Type something for the avatar to repeat"
-            input={text}
-            onSubmit={handleSpeak}
-            setInput={setText}
-            disabled={!stream}
-            loading={isLoadingRepeat}
-          /> */}
-          <InteractiveAvatarTextInput
-            label="Chat"
-            placeholder="Chat with the avatar (uses ChatGPT)"
-            input={input}
-            onSubmit={() => {
-              setIsLoadingChat(true);
-              if (!input) {
-                setDebug("Please enter text to send to ChatGPT");
-                return;
-              }
-              handleSubmit();
-            }}
-            setInput={setInput}
-            loading={isLoadingChat}
-            endContent={
-              <Tooltip
-                content={!recording ? "Start recording" : "Stop recording"}
-              >
-                <Button
-                  onClick={!recording ? startRecording : stopRecording}
-                  isDisabled={!stream}
-                  isIconOnly
-                  className={clsx(
-                    "mr-4 text-white",
-                    !recording
-                      ? "bg-gradient-to-tr from-indigo-500 to-indigo-300"
-                      : ""
-                  )}
-                  size="sm"
-                  variant="shadow"
+          {isSessionActive && ( // Only show input when session is active
+            <InteractiveAvatarTextInput
+              label="Chat"
+              placeholder="Chat with the avatar"
+              input={input}
+              onSubmit={() => {
+                setIsLoadingChat(true);
+                if (!input) {
+                  setDebug("Please enter text");
+                  return;
+                }
+                handleSubmit();
+              }}
+              setInput={setInput}
+              loading={isLoadingChat}
+              endContent={
+                <Tooltip
+                  content={!recording ? "Start recording" : "Stop recording"}
                 >
-                  {!recording ? (
-                    <Microphone size={20} />
-                  ) : (
-                    <>
-                      <div className="absolute h-full w-full bg-gradient-to-tr from-indigo-500 to-indigo-300 animate-pulse -z-10"></div>
-                      <MicrophoneStage size={20} />
-                    </>
-                  )}
-                </Button>
-              </Tooltip>
-            }
-            disabled={!stream}
-          />
+                  <Button
+                    onClick={!recording ? startRecording : stopRecording}
+                    isDisabled={!stream}
+                    isIconOnly
+                    className={clsx(
+                      "mr-4 text-white",
+                      !recording
+                        ? "bg-gradient-to-tr from-indigo-500 to-indigo-300"
+                        : ""
+                    )}
+                    size="sm"
+                    variant="shadow"
+                  >
+                    {!recording ? (
+                      <Microphone size={20} />
+                    ) : (
+                      <>
+                        <div className="absolute h-full w-full bg-gradient-to-tr from-indigo-500 to-indigo-300 animate-pulse -z-10"></div>
+                        <MicrophoneStage size={20} />
+                      </>
+                    )}
+                  </Button>
+                </Tooltip>
+              }
+              disabled={!stream}
+            />
+          )}
         </CardFooter>
       </Card>
       {/* <p className="font-mono text-right">
