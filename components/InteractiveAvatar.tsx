@@ -258,9 +258,9 @@ export default function InteractiveAvatar() {
   return (
     <div className="w-full flex flex-col gap-4">
       <Card>
-        <CardBody className="h-[500px] flex flex-col justify-center items-center">
+        <CardBody className="h-[400px] flex flex-col justify-center items-center">
           {stream ? (
-            <div className="h-[500px] w-[900px] justify-center items-center flex rounded-lg overflow-hidden">
+            <div className="h-[400px] w-[800px] justify-center items-center flex rounded-lg overflow-hidden">
               <video
                 ref={mediaStream}
                 autoPlay
@@ -357,10 +357,10 @@ export default function InteractiveAvatar() {
           )}
         </CardBody>
         <Divider />
-        <CardFooter className="flex flex-col gap-3">
+        <CardFooter className="flex flex-col">
           {isSessionActive && ( // Only show input when session is active
             <InteractiveAvatarTextInput
-              label="Chat"
+              label=" "
               placeholder="Chat with the avatar"
               input={input}
               onSubmit={() => {

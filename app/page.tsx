@@ -19,8 +19,8 @@ export default function App() {
   // ];
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className="w-[900px] flex flex-col items-start justify-start gap-5 mx-auto pt-4 pb-20">
+    <div className="flex flex-col">
+      <div className="w-[900px] flex flex-col items-start justify-start gap-5 mx-auto pt-4">
         <div className="w-full">
         <InteractiveAvatar />
           {/* <Tabs items={tabs}>
