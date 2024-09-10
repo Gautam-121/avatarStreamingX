@@ -430,7 +430,7 @@ export default function InteractiveAvatar() {
                   return;
                 }
                 // handleSubmit();
-                handleGetResponse();
+                handleGetResponse("");
               }}
               setInput={setNewInput}
               loading={isLoadingChat}
