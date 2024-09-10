@@ -9,7 +9,6 @@ import {
 import { ApprikartLogo , XircularLogo} from "./Icons";
 import "./navbar.css";
 
-
 export default function NavBar() {
   return (
     <Navbar style={{backgroundColor:'white'}}>
