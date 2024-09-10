@@ -1,0 +1,29 @@
+
+/* Media Query for tablets (min-width: 768px) */
+@media screen and (min-width: 768px) {
+    .xircular{
+        margin-left:8rem !important;
+    }
+    #headingtext{
+      margin-left:10rem !important ;
+    }
+  }
+  
+  /* Media Query for desktops (min-width: 1024px) */
+  @media screen and (min-width: 1024px) {
+    .xircular{
+        margin-left:15rem !important;
+    }
+    #headingtext{
+        margin-left:18rem !important;
+      }
+  } 
+  /* Media Query for smaller devices (max-width: 767px) */
+  @media screen and (max-width: 767px) {
+    .xircular{
+        margin-left:8rem !important;
+    }
+    #headingtext{
+        margin-left:10rem !important;
+      }
+  }
