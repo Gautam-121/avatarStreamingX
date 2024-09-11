@@ -22,12 +22,14 @@ import clsx from "clsx";
 import OpenAI from "openai";
 import { useEffect, useRef, useState } from "react";
 import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
+
 import Groq from "groq-sdk";
 
 const openai = new Groq({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
+
 
 export default function InteractiveAvatar() {
   const [isSessionActive, setIsSessionActive] = useState(false);
