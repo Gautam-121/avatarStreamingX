@@ -35,8 +35,8 @@ export default function InteractiveAvatar() {
   const [isLoadingChat, setIsLoadingChat] = useState(false);
   const [stream, setStream] = useState<MediaStream>();
   const [debug, setDebug] = useState<string>();
-  const [avatarId, setAvatarId] = useState<string>("");
-  const [voiceId, setVoiceId] = useState<string>("");
+  const [avatarId, setAvatarId] = useState<string>("Anna_public_3_20240108");
+  const [voiceId, setVoiceId] = useState<string>("1bd001e7e50f421d891986aad5158bc8");
   const [data, setData] = useState<NewSessionData>();
   const [text, setText] = useState<string>("");
   const [initialized, setInitialized] = useState(false); // Track initialization
@@ -113,8 +113,7 @@ export default function InteractiveAvatar() {
       console.error("Error starting avatar session:", error);
       setDebug(
         `There was an error starting the session. ${
-          voiceId ? "This custom voice ID may not be supported." : ""
-        }`
+          voiceId ? "This custom voice ID may not be supported." : ""}`
       );
     }
     setIsLoadingSession(false);
@@ -256,9 +255,9 @@ export default function InteractiveAvatar() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4" id="avatar-card">
       <Card>
-        <CardBody className="h-[400px] flex flex-col justify-center items-center">
+        <CardBody className="h-[400px] flex flex-col justify-center items-center" >
           {stream ? (
             <div className="h-[400px] w-[800px] justify-center items-center flex rounded-lg overflow-hidden">
               <video
@@ -269,6 +268,7 @@ export default function InteractiveAvatar() {
                   width: "100%",
                   height: "100%",
                   objectFit: "contain",
+                  filter:'hue-rotate(45deg)'
                 }}
               >
                 <track kind="captions" />
@@ -296,21 +296,21 @@ export default function InteractiveAvatar() {
             <div className="h-full justify-center items-center flex flex-col gap-8 w-[500px] self-center">
               <div className="flex flex-col gap-2 w-full">
                 <p className="text-sm font-medium leading-none">
-                  Custom Avatar ID (optional)
+                  Custom Avatar ID
                 </p>
                 <Input
-                  value={avatarId}
-                  onChange={(e) => setAvatarId(e.target.value)}
+                  value="Susan_public_2_20240328"
+                  // onChange={(e) => setAvatarId(e.target.value)}
                   placeholder="Enter a custom avatar ID"
                 />
-                <Select
+                {/* <Select
                   placeholder="Or select one from these example avatars"
                   size="md"
                   onChange={(e) => {
                     setAvatarId(e.target.value);
                   }}
-                >
-                  {AVATARS.map((avatar) => (
+                > */}
+                  {/* {AVATARS.map((avatar) => (
                     <SelectItem
                       key={avatar.avatar_id}
                       textValue={avatar.avatar_id}
@@ -318,18 +318,18 @@ export default function InteractiveAvatar() {
                       {avatar.name}
                     </SelectItem>
                   ))}
-                </Select>
+                </Select> */}
               </div>
               <div className="flex flex-col gap-2 w-full">
                 <p className="text-sm font-medium leading-none">
-                  Custom Voice ID (optional)
+                  Custom Voice ID
                 </p>
                 <Input
-                  value={voiceId}
-                  onChange={(e) => setVoiceId(e.target.value)}
+                  value="1bd001e7e50f421d891986aad5158bc8"
+                  // onChange={(e) => setVoiceId(e.target.value)}
                   placeholder="Enter a custom voice ID"
                 />
-                <Select
+                {/* <Select
                   placeholder="Or select one from these example voices"
                   size="md"
                   onChange={(e) => {
@@ -341,7 +341,7 @@ export default function InteractiveAvatar() {
                       {voice.name} | {voice.language} | {voice.gender}
                     </SelectItem>
                   ))}
-                </Select>
+                </Select> */}
               </div>
               <Button
                 size="md"
@@ -356,9 +356,9 @@ export default function InteractiveAvatar() {
             <Spinner size="lg" color="default" />
           )}
         </CardBody>
-        <Divider />
+        {isSessionActive && ( // Only show input when session is active
         <CardFooter className="flex flex-col">
-          {isSessionActive && ( // Only show input when session is active
+          {/* <Divider /> */}
             <InteractiveAvatarTextInput
               label=" "
               placeholder="Chat with the avatar"
@@ -403,8 +403,8 @@ export default function InteractiveAvatar() {
               }
               disabled={!stream}
             />
-          )}
         </CardFooter>
+          )}
       </Card>
       {/* <p className="font-mono text-right">
         <span className="font-bold">Console:</span>

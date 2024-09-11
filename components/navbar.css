@@ -11,6 +11,9 @@
   
   /* Media Query for desktops (min-width: 1024px) */
   @media screen and (min-width: 1024px) {
+    #avatar-card{
+        background-color: inherit !important; 
+    }
     .xircular{
         margin-left:15rem !important;
     }
@@ -20,6 +23,11 @@
   } 
   /* Media Query for smaller devices (max-width: 767px) */
   @media screen and (max-width: 767px) {
+    #avatar-card{
+    background-color: transparent !important; /* Remove background color on mobile */
+    box-shadow: none !important;
+    width:100% !important;
+    }
     .xircular{
         margin-left:8rem !important;
     }
