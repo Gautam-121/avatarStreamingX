@@ -1,37 +1,37 @@
 "use client";
 
 import InteractiveAvatar from "@/components/InteractiveAvatar";
-// import InteractiveAvatarCode from "@/components/InteractiveAvatarCode";
-import { Tab, Tabs } from "@nextui-org/react";
+import MobileInteractiveAvatar from "@/components/MobileInteractiveAvatar";
+import { useEffect, useState } from "react";
 
 export default function App() {
-  // const tabs = [
-  //   {
-  //     id: "demo",
-  //     label: "Demo",
-  //     content: <InteractiveAvatar />,
-  //   },
-  //   // {
-  //   //   id: "code",
-  //   //   label: "Code",
-  //   //   content: <InteractiveAvatarCode />,
-  //   // },
-  // ];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Function to check screen size
+    const handleResize = () => {
+      setIsMobile(window.matchMedia("(max-width:765px)").matches);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener to handle window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div className="flex flex-col">
-      <div className="w-[900px] flex flex-col items-start justify-start gap-5 mx-auto pt-4">
-        <div className="w-full">
-        <InteractiveAvatar />
-          {/* <Tabs items={tabs}>
-            {(items) => (
-              <Tab key={items.id} title={items.label}>
-                {items.content}
-              </Tab>
-            )}
-          </Tabs> */}
-        </div>
-      </div>
+    <div>
+      {isMobile ? <MobileInteractiveAvatar /> :
+      <div className="w-[750px] flex flex-col items-center justify-center gap-5 mx-auto pt-4">
+         <InteractiveAvatar />
+         </div>
+      }
     </div>
   );
 }

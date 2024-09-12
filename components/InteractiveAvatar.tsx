@@ -22,7 +22,7 @@ import clsx from "clsx";
 import OpenAI from "openai";
 import { useEffect, useRef, useState } from "react";
 import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
-
+import "./navbar.css";
 import Groq from "groq-sdk";
 
 const openai = new Groq({
