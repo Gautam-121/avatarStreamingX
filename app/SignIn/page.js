@@ -141,7 +141,7 @@ const SignInPage = () => {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-center text-gray-500">
             Don&apos;t have an account?{" "}
-            <a href="/signup" className="text-blue-500">
+            <a href="/SignUp" className="text-blue-500">
               Sign Up
             </a>
           </p>
