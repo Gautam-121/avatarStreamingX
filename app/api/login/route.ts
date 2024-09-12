@@ -74,7 +74,7 @@ export async function POST(req: Request) {
         name: user.name,
         email: user.email,
       },
-      JWT_SECRET_KEY,
+      "your_secret_key",
       { expiresIn: '1h' } // Token expires in 1 hour
     )
 
