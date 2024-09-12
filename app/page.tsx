@@ -27,11 +27,13 @@ export default function App() {
 
   return (
     <div>
-      {isMobile ? <MobileInteractiveAvatar /> :
-      <div className="w-[95%] flex flex-col items-center justify-center gap-5 mx-auto pt-4">
-         <InteractiveAvatar />
-         </div>
-      }
+      {isMobile ? (
+        <MobileInteractiveAvatar />
+      ) : (
+        <div className="w-[95%] flex flex-col items-center justify-center gap-5 mx-auto pt-4">
+          <InteractiveAvatar />
+        </div>
+      )}
     </div>
   );
 }
