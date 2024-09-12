@@ -1,0 +1,167 @@
+.signup-card {
+    width: 26rem;
+    justify-content: center !important;
+  }
+  
+  .signup-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+  .cardTitle {
+    font-family: "Inter" !important;
+    text-align: center;
+    font-weight: 900 !important;
+    font-size: 30px !important;
+  }
+  .sub-Title {
+    font-family: "Inter" !important;
+    text-align: center;
+    color: #667085;
+    font-weight: 400 !important;
+  }
+  .input-card {
+    /* display: flex;
+      flex-direction: column;
+      justify-content: center; */
+    /* text-align: center; */
+    /* width: 18rem; */
+    margin-top: 1rem;
+  }
+  .phone-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* width: 20rem; */
+    /* margin-left: 3rem; */
+    /* color: #1c1b1f55; */
+  }
+  .phone-title {
+    font-family: "Inter";
+    font-weight: 500 !important;
+    font-size: 13px !important;
+  }
+  .PhoneInputCountry {
+    border: 1px solid rgba(0, 0, 0, 0.174);
+    padding: 0px 15px;
+    border-radius: 7px;
+    display: flex;
+    background-color: white;
+  }
+  .PhoneInputCountry > :nth-child(2) {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 30px;
+  }
+  .PhoneInputCountrySelectArrow {
+    color: black !important;
+  }
+  .PhoneInputCountrySelectArrow:focus {
+    color: black !important;
+  }
+  
+  .PhoneInputCountry img {
+    width: 25px;
+    object-fit: cover;
+    height: 25px;
+    border-radius: 50%;
+    position: relative;
+    /* padding: 1px; */
+    box-sizing: content-box;
+    background-color: white;
+    bottom: 4px;
+    right: 3px;
+    
+  }
+  .PhoneInputCountryIcon {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .PhoneInputCountryIcon :focus {
+    border: none !important;
+    box-shadow: 0px;
+  }
+  .PhoneInput > input {
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.174);
+    outline: none;
+    border-radius: 7px;
+    min-width: 72%;
+  }
+  
+  .PhoneInput > select {
+    padding: 10px;
+  }
+  
+  .email-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* width: 20rem; */
+    /* margin-left: 3rem; */
+  }
+  /* .email-textfield:hover{
+    border: 0.5px solid #7A38D4;
+    border-radius: 0.1rem;
+  } */
+  .email-title {
+    font-family: "Inter";
+    font-weight: 500 !important;
+    font-size: 13px !important;
+  }
+  .password-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* width: 20rem; */
+    /* margin-left: 3rem; */
+  }
+  .password-card p {
+    font-family: "Inter";
+    font-weight: 500 !important;
+    font-size: 13px !important;
+  }
+  .signup-button {
+    font-family: "Inter" !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    padding: 7px 35px !important;
+    background: linear-gradient(90deg, #7b35d4 0%, #55cad6 100%);
+  }
+  .button-card {
+    /* margin-top: 1rem; */
+    display: flex;
+    justify-content: center;
+    /* padding: 7rem; */
+    /* margin-bottom: 1rem; */
+    margin-top: 0.5rem;
+  }
+  .last-option {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .termsSpan {
+    text-decoration: underline;
+    /* color: rgba(255, 0, 0, 0.5); */
+    color: #061c33;
+    cursor: pointer;
+    /* font-weight: bold; */
+  }
+  @media screen and (max-width: 600px) {
+    /* .input-card{
+          /* margin-left: 2rem; */
+    /* }  */
+    .signup-page {
+      margin-top: 6rem !important;
+    }
+    /* .email-card{
+          margin-left: 1.2rem;
+      }
+      .password-card{
+          margin-left: 1.2rem;
+      }  */
+  }

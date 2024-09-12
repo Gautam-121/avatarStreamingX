@@ -424,16 +424,17 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
       <Card>
         <CardBody className="h-[400px] flex flex-col justify-center items-center" >
           {stream ? (
-            <div className="h-[400px] w-[800px] justify-center items-center flex rounded-lg overflow-hidden">
+            <div className="h-[400px] justify-center items-center flex rounded-lg overflow-hidden">
               <video
                 ref={mediaStream}
                 autoPlay
                 playsInline
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  filter:'hue-rotate(45deg)'
+                  width: "90%",
+                  // height: "100%",
+                  borderRadius: '13px',
+                  objectFit: 'cover',
+                  filter:'hue-rotate(5deg)'
                 }}
               >
                 <track kind="captions" />

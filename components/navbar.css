@@ -69,18 +69,18 @@
     margin-top:0.5rem !important;
   }
   #avatarsession-btn{
-    margin-top: 25rem !important;
+    margin-top: 27rem !important;
   }
   #textInput{
-    margin-top: 6rem !important;
+    margin-top: 12rem !important;
   }
 }
 @media screen and (min-width: 390px) and (max-width:440px) {
   #avatarsession-btn{
-    margin-top: 25rem !important;
+    margin-top: 28rem !important;
   }
   #textInput{
-    margin-top: 3.5rem !important;
+    margin-top: 23rem !important;
   }
 }
 /* Media Query for smaller devices (max-width: 365px) */
@@ -100,6 +100,6 @@
     margin-top: 24rem !important;
   }
   #textInput{
-    margin-top: 3rem !important;
+    margin-top: 12rem !important;
   }
 }
