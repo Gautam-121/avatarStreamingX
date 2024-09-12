@@ -8,12 +8,21 @@ export async function POST(req: Request) {
   console.log("Guasta" , req.body)
   const { messages } = await req.json();
 
+  // Add a system message to ensure concise responses
+  const enhancedMessages = [
+    {
+      role: "system",
+      content: `You are a video chatbot exclusively for the Hyundai Creta S variant. Answer queries in 3 lines or fewer, using only information from the provided knowledge base. Focus on accurate details about features, specifications, and benefits of this specific model. If you can't fully answer within 3 lines or if the information isn't in your knowledge base, clearly state this and suggest an authorized Hyundai dealer.`
+    },
+    ...messages
+  ];
+
   const stream = await groq.chat.completions.create({
-    messages: messages,
+    messages: enhancedMessages,
     model: "llama3-8b-8192",
     stream: true,
   });
-console.log(messages);
+console.log(stream);
 
   return new Response(
     new ReadableStream({

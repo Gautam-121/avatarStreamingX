@@ -1,5 +1,9 @@
 export const AVATARS = [
   {
+    avatar_id: "3b3718063f074e32a75e96ad09bf4e9d",
+    name: "Bradley_Blue_Polo_Front",
+  },
+  {
     avatar_id: "Eric_public_pro2_20230608",
     name: "Edward in Blue Shirt",
   },
@@ -133,3 +137,4 @@ export const VOICES = [
     emotion_support: false,
   },
 ];
+
