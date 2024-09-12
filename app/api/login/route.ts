@@ -1,13 +1,27 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs/promises'
 import bcrypt from 'bcrypt'
-import path from 'path'
 import jwt from 'jsonwebtoken'
+import { MongoClient, ServerApiVersion } from 'mongodb'
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'users.json')
+const uri = process.env.MONGODB_URI
+const dbName = process.env.MONGODB_DB_NAME
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 
-// JWT secret key (replace with your secret key in a real app)
-const JWT_SECRET_KEY = 'your_jwt_secret_key'
+if (!uri) {
+  throw new Error('Please add your Mongo URI to .env.local')
+}
+
+if (!JWT_SECRET_KEY) {
+  throw new Error('Please add your JWT secret key to .env.local')
+}
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+})
 
 type User = {
   name: string
@@ -24,6 +38,10 @@ function isValidEmail(email: string): boolean {
 // POST method handler
 export async function POST(req: Request) {
   try {
+    await client.connect()
+    const db = client.db(dbName)
+    const collection = db.collection('users')
+
     const body = await req.json()
     const { email, password } = body
 
@@ -37,21 +55,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 })
     }
 
-    let users: User[] = []
-
-    // Read the users.json file to get the list of registered users
-    try {
-      const data = await fs.readFile(DATA_FILE, 'utf8')
-      users = JSON.parse(data)
-    } catch (error: unknown) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-        return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
-      }
-      throw error
-    }
-
     // Find the user with the provided email
-    const user = users.find(user => user.email === email)
+    const user = await collection.findOne({ email }) as User | null
+
     if (!user) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
@@ -75,7 +81,7 @@ export async function POST(req: Request) {
     // Return the JWT token in the response
     return NextResponse.json({
       message: 'Login successful',
-      data:{
+      data: {
         name: user.name,
         email: user.email
       },
@@ -87,5 +93,7 @@ export async function POST(req: Request) {
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     )
+  } finally {
+    await client.close()
   }
 }
