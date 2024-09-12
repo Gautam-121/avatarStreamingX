@@ -5,15 +5,15 @@ export function ApprikartLogo() {
 }
 
 export function XircularLogo() {
-  return <img src="/logo_XIRCULAR.png" className="xircular" alt="Xircular Logo" style={{height:"3rem",marginLeft:"15rem",backgroundColor:"white"}} />;
+  return <img src="/logo_XIRCULAR.png" className="xircular" alt="Xircular Logo" style={{height:"3rem",backgroundColor:"white"}} />;
 }
 
-type IconSvgProps = {
-  size?: number;
-  width?: number;
-  height?: number;
-  className?: string;
-};
+// type IconSvgProps = {
+//   size?: number;
+//   width?: number;
+//   height?: number;
+//   className?: string;
+// };
 
 
 // export function GithubIcon({

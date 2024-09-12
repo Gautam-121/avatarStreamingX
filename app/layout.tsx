@@ -46,9 +46,9 @@ export default function RootLayout({
       className={`${fontSans.variable} ${fontMono.variable} font-sans`}
     >
       <head />
-      <body className={clsx("min-h-screen bg-background antialiased")}>
+      <body className={clsx("bg-background antialiased")}>
         <Providers themeProps={{ defaultTheme: "light" }}>
-          <main className="relative flex flex-col h-screen ">
+          <main className="relative flex flex-col">
             <NavBar />
             {children}
           </main>

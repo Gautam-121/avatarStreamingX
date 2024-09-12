@@ -29,10 +29,12 @@
     "@uiw/codemirror-extensions-langs": "^4.22.1",
     "@uiw/react-codemirror": "^4.22.1",
     "ai": "^3.2.15",
+    "bcrypt": "^5.1.1",
     "clsx": "2.1.1",
     "framer-motion": "~11.1.1",
     "groq-sdk": "^0.7.0",
     "intl-messageformat": "^10.5.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.2.4",
     "next-themes": "^0.2.1",
     "openai": "^4.52.1",
@@ -41,6 +43,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "20.5.7",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",

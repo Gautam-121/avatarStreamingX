@@ -6,13 +6,13 @@ import {
 } from "@heygen/streaming-avatar";
 import {
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Divider,
+//   Card,
+//   CardBody,
+//   CardFooter,
+//   Divider,
   Input,
-  Select,
-  SelectItem,
+//   Select,
+//   SelectItem,
   Spinner,
   Tooltip,
 } from "@nextui-org/react";
@@ -21,15 +21,15 @@ import { useChat } from "ai/react";
 import clsx from "clsx";
 import OpenAI from "openai";
 import { useEffect, useRef, useState } from "react";
-import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
 import "./navbar.css";
+import InteractiveAvatarTextInput from "./InteractiveAvatarTextInput";
+
 import Groq from "groq-sdk";
 
 const openai = new Groq({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
-
 
 // Define a type for chat messages
 type ChatMessage = {
@@ -55,8 +55,8 @@ export default function InteractiveAvatar() {
   const avatar = useRef<StreamingAvatarApi | null>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const audioChunks = useRef<Blob[]>([]);
-  const [newInput, setNewInput] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [newInput, setNewInput] = useState("");
   const { input, setInput, handleSubmit } = useChat({
     onFinish: async (message) => {
       console.log("Response:", message);
@@ -114,35 +114,14 @@ export default function InteractiveAvatar() {
             quality: "medium",
             avatarName: "Tyler-incasualsuit-20220721",
             voice: { voiceId: "aee6c1539b7745a5a7e2f4e537d9bff4" },
-            knowledgeBase: `The Creta S variant, categorized as a car, is available in both petrol (1.5 PL 6MT) and diesel (1.5 DSL 6MT) options. With a seating capacity for five, the Creta S boasts an engine labeled 1.5 PL 6MT / 1.5 DSL 6MT, featuring a displacement of 1497cc for petrol and 1493cc for diesel. The four-cylinder engine with 16 valves operates on a DOHC cam type, delivering a maximum power of 115 ps at 6300 rpm for petrol and 115 ps at 4000 rpm for diesel. The torque figures stand at 144 Nm at 4500 rpm for petrol and 250 Nm at 1500~2750 rpm for diesel.
-
-Equipped with a 6-speed MT (manual transmission), the Creta S offers a McPherson Strut with Coil Spring for the front suspension and a Coupled Torsion Beam Axle for the rear. Disc brakes are installed on both the front and rear wheels. The fuel options include petrol and diesel, and the fuel tank capacity is 55 liters.
-
-In terms of dimensions, the Creta S measures an overall length of 4,300 mm, a width of 1,790 mm, and a height of 1,635 mm, with a wheelbase of 2,610 mm. The boot space is a capacious 402 liters, and the tire type is tubeless, with front and rear tires sized at 205/65 R16.
-
-Safety features are robust in the Creta S variant, including ABS with EBD, 6 airbags (front dual, side & curtain), an immobilizer, rear parking sensors, a speed alert system, seatbelt pretensioners for both driver and passenger, seat belt reminders, speed-sensing auto door lock, and impact-sensing auto door unlock.
-
-Exterior elements add a touch of style and functionality to the Creta S, featuring projection headlamps, a dual-tone body-colored bumper, a black radiator grille, a micro roof antenna, silver skid plates (front and rear), LED tail lamps, a body-colored rear spoiler, silver side sill garnish, and C pillar garnish, body-colored outside door handles and ORVMs, turn indicators on ORVMs and fender, LED high-mounted stop lamps, a shark fin antenna in body color, silver roof rails, and a glossy chrome radiator grille.
-
-Inside, the Creta S variant offers a mix of practical and aesthetic features, such as grey and black interiors, a tachometer, a room lamp, standard door scuff, black inside door handles, a D-cut steering wheel, full cloth seat fabric, and a rear parcel tray.
-
-Additional conveniences include a 12V power outlet, blanking cover, an 8.0 touchscreen audio system with MP3, AM/FM, Bluetooth, i-Blue App compatibility, a front USB charger, smartphone connectivity, voice recognition function, Arkamys sound mood, four speakers, two tweeters, and a rear USB charger. The 10.25 AVN system is not available in this variant.
-
-The Creta S caters to driver comfort with features like a height-adjustable driver seat, fixed rear head restraints for the left and right-hand sides, a cooled glove box, TPMS (low type), rheostat, eco coating, a luggage lamp, MDPS, follow-me-home headlamps, manual AC, rear AC vents, a PVC console armrest, a day/night IRVM, tilt steering, central locking, power windows (front and rear), a trip meter, adjustable front head restraints, electrically adjustable ORVMs, tinted glass, electric tailgate release, roof assist handle, battery saver, dual horn, MT shift indicator, lane change indicator, inside door handle override for the driver, and AMS.
-
-Vanity mirrors on the passenger side, coat hooks at the rear, seatback pockets for both driver and passenger, a keyless entry with a folding key, luggage hook, map lamp with a sunglass holder, steering-mounted audio and Bluetooth controls, seatback pockets for both driver and passenger, a rear parking camera with adaptable guidelines, DRVM (Driver Rear View Monitor), FATC, cruise control, a smart key with push-button illumination, a rear wiper and washer, auto-light control, rear manual curtain, and a compact panoramic sunroof with LED map lamps are unavailable in this variant. Additionally, LED reading lamps and a wireless charger (OE) are also not present.
-
-Unavailable features also include ORVM electric folding, auto fold/unfold ORVM, paddle shifters, electric parking brake with auto hold, an armrest-integrated air purifier (PIO), drive mode select, grip control, a console armrest with black stitching, R17 grey alloys, paddle shifters, all-black interiors with an orange interior color pack, electric parking brake, dark chrome grille, body-color door handles, an armrest-integrated air purifier (PIO), ORVM & shark fin in black (with black roof), a black rear spoiler (with black roof), grip control, metal pedals, a console armrest with orange stitching, twin-tip exhaust, dual-tone roof (option), drive mode select, side sill garnish and roof rails in matte black, skid plates front/rear in matte black, C pillar garnish in glossy black (with black roof), black leather seats, all-black interiors with an orange interior color pack, front-row ventilated seats, and a power driver's seat. Additionally, TPMS (high type), ECM + MTS, lane change indicator with flash adjustments, and an armrest-integrated air purifier are also unavailable.
-
-Safety features in the Creta S variant include a 3-point seatbelt for all seats, seatbelt reminders for all seats, and full cloth seat fabric. Additional comfort features include a rear center armrest with cup holders and adjustable rear head restraints.`
           },
         },
+        setDebug
       );
-      console.log("res" , res)
       setData(res);
       setStream(avatar.current.mediaStream);
       setIsSessionActive(true); // Set session as active
-    } catch (e:unknown) {
+    } catch (error) {
       alert("Limit Expired, Please try after some time")
       setDebug(
         `There was an error starting the session. ${
@@ -421,26 +400,31 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
 
   return (
     <div className="w-full flex flex-col gap-4" id="avatar-card">
-      <Card>
-        <CardBody className="h-[400px] flex flex-col justify-center items-center" >
+      <div>
+        <div className="" >
           {stream ? (
-            <div className="h-[400px] w-[800px] justify-center items-center flex rounded-lg overflow-hidden">
+            <div className="justify-center items-center flex rounded-lg overflow-hidden">
               <video
+              className="video"
                 ref={mediaStream}
                 autoPlay
                 playsInline
                 style={{
-                  width: "100%",
-                  height: "100%",
+                  width: "86%",
+                  height: "335px",
                   objectFit: "contain",
-                  filter:'hue-rotate(45deg)'
+                  filter:'hue-rotate(5deg)',
+                  marginTop:'1.10rem'
                 }}
               >
                 <track kind="captions" />
               </video>
-              <div className="flex flex-col gap-2 absolute bottom-3 right-3">
+              <div className="flex flex-row gap-10 absolute" id="avatarsession-btn"style={{marginTop:'24rem'}}>
                 <Button
                   size="md"
+                  style={{
+                    width:"9rem"
+                  }}
                   onClick={handleInterrupt}
                   className="bg-gradient-to-tr from-indigo-500 to-indigo-300 text-white rounded-lg"
                   variant="shadow"
@@ -449,6 +433,9 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
                 </Button>
                 <Button
                   size="md"
+                  style={{
+                    width:"9rem"
+                  }}
                   onClick={endSession}
                   className="bg-gradient-to-tr from-indigo-500 to-indigo-300  text-white rounded-lg"
                   variant="shadow"
@@ -458,9 +445,9 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
               </div>
             </div>
           ) : !isLoadingSession ? (
-            <div className="h-full justify-center items-center flex flex-col gap-8 w-[500px] self-center">
-              <div className="flex flex-col gap-2 w-full">
-                <p className="text-sm font-medium leading-none">
+            <div className="session-card">
+              <div>
+                <p className="custom-avatar">
                   Custom Avatar ID
                 </p>
                 <Input
@@ -485,8 +472,8 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
                   ))}
                 </Select> */}
               </div>
-              <div className="flex flex-col gap-2 w-full">
-                <p className="text-sm font-medium leading-none">
+              <div style={{marginTop:"1rem"}}>
+                <p className="custom-avatar">
                   Custom Voice ID
                 </p>
                 <Input
@@ -512,6 +499,7 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
                 size="md"
                 onClick={startSession}
                 className="bg-gradient-to-tr from-indigo-500 to-indigo-300 w-full text-white"
+                id="session-btn"
                 variant="shadow"
               >
                 Start session
@@ -520,16 +508,16 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
           ) : (
             <Spinner size="lg" color="default" />
           )}
-        </CardBody>
+        </div>
         {isSessionActive && ( // Only show input when session is active
-        <CardFooter className="flex flex-col">
+        <div className="flex flex-col" id="textInput" style={{paddingRight:'0.5rem',paddingLeft:'0.5rem'}}>
           {/* <Divider /> */}
             <InteractiveAvatarTextInput
               label=" "
               placeholder="Chat with the avatar"
               input={newInput}
               onSubmit={() => {
-                setIsLoadingChat(false);
+                setIsLoadingChat(true);
                 if (!newInput) {
                   setDebug("Please enter text");
                   return;
@@ -569,9 +557,9 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
               }
               disabled={!stream}
             />
-        </CardFooter>
+        </div>
           )}
-      </Card>
+      </div>
       {/* <p className="font-mono text-right">
         <span className="font-bold">Console:</span>
         <br />
