@@ -62,7 +62,11 @@ const SignInPage = () => {
       const data = await response.json();
 
       if (response.ok) {
+        console.log(data);
+        
         setSuccessMessage("Login successful!");
+        localStorage.setItem("accessToken", data.token
+        )
         setFormData({ email: "", password: "" }); // Reset form fields
         window.location.href="/"
       } else {
