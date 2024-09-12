@@ -8,7 +8,6 @@ import {
   CardFooter,
   Divider,
   Input,
-  Tooltip,
   Spinner,
 } from "@nextui-org/react";
 
@@ -21,7 +20,6 @@ const SignInPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Validation function
   const validate = () => {
     const newErrors = {};
 
@@ -40,13 +38,12 @@ const SignInPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors({});
     setSuccessMessage("");
 
-    if (!validate()) return; // Stop submission if form is invalid
+    if (!validate()) return;
 
     setIsSubmitting(true);
 
@@ -62,13 +59,10 @@ const SignInPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data);
-        
         setSuccessMessage("Login successful!");
-        localStorage.setItem("accessToken", data.token
-        )
-        setFormData({ email: "", password: "" }); // Reset form fields
-        window.location.href="/"
+        localStorage.setItem("accessToken", data.token);
+        setFormData({ email: "", password: "" });
+        window.location.href = "/";
       } else {
         setErrors({
           apiError: data.error || "Login failed. Please try again.",
@@ -83,7 +77,6 @@ const SignInPage = () => {
     }
   };
 
-  // Handle input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -108,37 +101,37 @@ const SignInPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <Input
-                type="email"
-                name="email"
-                label="Email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                isInvalid={errors.email}
                 description={errors.email}
                 fullWidth
+                isInvalid={errors.email}
+                label="Email"
+                name="email"
+                onChange={handleChange}
+                placeholder="Enter your email"
+                type="email"
+                value={formData.email}
               />
             </div>
 
             <div className="mb-6">
               <Input
-                type="password"
-                name="password"
-                label="Password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-                isInvalid={errors.password}
                 description={errors.password}
                 fullWidth
+                isInvalid={errors.password}
+                label="Password"
+                name="password"
+                onChange={handleChange}
+                placeholder="Enter your password"
+                type="password"
+                value={formData.password}
               />
             </div>
 
             <Button
-              type="submit"
+              color="primary"
               fullWidth
               isDisabled={isSubmitting}
-              color="primary"
+              type="submit"
             >
               {isSubmitting ? <Spinner size="small" /> : "Sign In"}
             </Button>
@@ -147,7 +140,7 @@ const SignInPage = () => {
         <Divider />
         <CardFooter className="flex justify-center">
           <p className="text-sm text-center text-gray-500">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a href="/signup" className="text-blue-500">
               Sign Up
             </a>
