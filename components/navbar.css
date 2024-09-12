@@ -63,15 +63,16 @@
   .video{
     width: 86% !important;
     height: 335px !important;
-    object-fit: "contain" !important;
+    border-radius: 13px !important;
+    object-fit: cover !important;
     filter:hue-rotate(5deg) !important;
     margin-top:0.5rem !important;
   }
   #avatarsession-btn{
-    margin-top: 24rem !important;
+    margin-top: 25rem !important;
   }
   #textInput{
-    margin-top: 3rem !important;
+    margin-top: 6rem !important;
   }
 }
 @media screen and (min-width: 390px) and (max-width:440px) {
@@ -90,7 +91,8 @@
   .video{
     width: 86% !important;
     height: 335px !important;
-    object-fit: "contain" !important;
+    border-radius: 13px !important;
+    object-fit: cover !important;
     filter:hue-rotate(5deg) !important;
     margin-top:0.5rem !important;
   }
