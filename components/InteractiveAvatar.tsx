@@ -113,7 +113,7 @@ export default function InteractiveAvatar() {
           newSessionRequest: {
             quality: "medium",
             avatarName: "Tyler-incasualsuit-20220721",
-            voice: { voiceId: "aee6c1539b7745a5a7e2f4e537d9bff4" },
+            voice: { voiceId: "1bd001e7e50f421d891986aad5158bc8" },
             knowledgeBase: `The Creta S variant, categorized as a car, is available in both petrol (1.5 PL 6MT) and diesel (1.5 DSL 6MT) options. With a seating capacity for five, the Creta S boasts an engine labeled 1.5 PL 6MT / 1.5 DSL 6MT, featuring a displacement of 1497cc for petrol and 1493cc for diesel. The four-cylinder engine with 16 valves operates on a DOHC cam type, delivering a maximum power of 115 ps at 6300 rpm for petrol and 115 ps at 4000 rpm for diesel. The torque figures stand at 144 Nm at 4500 rpm for petrol and 250 Nm at 1500~2750 rpm for diesel.
 
 Equipped with a 6-speed MT (manual transmission), the Creta S offers a McPherson Strut with Coil Spring for the front suspension and a Coupled Torsion Beam Axle for the rear. Disc brakes are installed on both the front and rear wheels. The fuel options include petrol and diesel, and the fuel tank capacity is 55 liters.
@@ -306,7 +306,7 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
     let accumulatedText = "";
     const chunkSize = 100; // Adjust based on your needs
 
-    // setIsLoadingChat(true)
+    setIsLoadingChat(true)
     try {
       // Add the new user message to the chat history
     const newUserMessage: ChatMessage = {
@@ -373,8 +373,9 @@ Safety features in the Creta S variant include a 3-point seatbelt for all seats,
 
       console.log("data", dataFromApi);
       setChatHistory([...updatedHistory])
-      setIsLoadingChat(false)
+      
       if (avatar.current) {
+        setIsLoadingChat(false)
         await avatar.current
           .speak({
             taskRequest: { text: sanitizedData, sessionId: data?.sessionId },
