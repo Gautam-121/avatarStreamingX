@@ -1,18 +1,18 @@
 import Groq from "groq-sdk";
+import { PROMPT } from "@/app/lib/constants";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const groq = new Groq({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
-  console.log("Guasta" , req.body)
   const { messages } = await req.json();
 
   // Add a system message to ensure concise responses
   const enhancedMessages = [
     {
       role: "system",
-      content: `You are a video chatbot exclusively for the Hyundai Creta S variant. Answer queries in 3 lines or fewer, using only information from the provided knowledge base. Focus on accurate details about features, specifications, and benefits of this specific model. If you can't fully answer within 3 lines or if the information isn't in your knowledge base, clearly state this and suggest an authorized Hyundai dealer.`
+      content: PROMPT
     },
     ...messages
   ];
@@ -22,7 +22,6 @@ export async function POST(req: Request) {
     model: "llama3-8b-8192",
     stream: true,
   });
-console.log(stream);
 
   return new Response(
     new ReadableStream({
