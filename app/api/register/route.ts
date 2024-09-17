@@ -1,19 +1,26 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs/promises'
 import bcrypt from 'bcrypt'
-import path from 'path'
+import { MongoClient, ServerApiVersion } from 'mongodb'
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'users.json')
+const uri = process.env.MONGODB_URI
+const dbName = process.env.MONGODB_DB_NAME
+
+if (!uri) {
+  throw new Error('Please add your Mongo URI to .env.local')
+}
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+})
 
 type User = {
   name: string
   email: string
   password: string
-}
-
-// Type guard to check if the error is an instance of NodeJS.ErrnoException
-function isNodeError(error: unknown): error is NodeJS.ErrnoException {
-  return typeof error === 'object' && error !== null && 'code' in error
 }
 
 // Function to validate email using regex
@@ -31,6 +38,10 @@ function isValidPassword(password: string): boolean {
 // POST method handler
 export async function POST(req: Request) {
   try {
+    await client.connect()
+    const db = client.db(dbName)
+    const collection = db.collection('users')
+
     const body = await req.json()
     const { name, email, password } = body
 
@@ -51,23 +62,9 @@ export async function POST(req: Request) {
       }, { status: 400 })
     }
 
-    let users: User[] = []
-
-    try {
-      const data = await fs.readFile(DATA_FILE, 'utf8')
-      users = JSON.parse(data)
-    } catch (error: unknown) {
-      if (isNodeError(error) && error.code === 'ENOENT') {
-        await fs.mkdir(path.dirname(DATA_FILE), { recursive: true })
-        await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2))
-        users = []
-      } else {
-        throw error
-      }
-    }
-
     // Check if the email is already registered
-    if (users.find(user => user.email === email)) {
+    const existingUser = await collection.findOne({ email })
+    if (existingUser) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
     }
 
@@ -75,9 +72,8 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = { name, email, password: hashedPassword }
 
-    // Add the new user and save to the file
-    users.push(newUser)
-    await fs.writeFile(DATA_FILE, JSON.stringify(users, null, 2))
+    // Add the new user to the database
+    await collection.insertOne(newUser)
 
     return NextResponse.json({ message: 'User registered successfully' }, { status: 201 })
   } catch (error: unknown) {
@@ -86,5 +82,7 @@ export async function POST(req: Request) {
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     )
+  } finally {
+    await client.close()
   }
 }

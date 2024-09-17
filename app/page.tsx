@@ -7,6 +7,13 @@ import { useEffect, useState } from "react";
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(()=>{
+    let accessToken = localStorage.getItem("accessToken")
+    if(!accessToken){
+      window.location.href = "/SignIn"
+    }
+  },[])
+  
   useEffect(() => {
     // Function to check screen size
     const handleResize = () => {
@@ -27,11 +34,13 @@ export default function App() {
 
   return (
     <div>
-      {isMobile ? <MobileInteractiveAvatar /> :
-      <div className="w-[95%] flex flex-col items-center justify-center gap-5 mx-auto pt-4">
-         <InteractiveAvatar />
-         </div>
-      }
+      {isMobile ? (
+        <MobileInteractiveAvatar />
+      ) : (
+        <div className="w-[95%] flex flex-col items-center justify-center gap-5 mx-auto pt-4">
+          <InteractiveAvatar />
+        </div>
+      )}
     </div>
   );
 }
