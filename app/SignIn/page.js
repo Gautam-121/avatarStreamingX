@@ -61,6 +61,7 @@ const SignInPage = () => {
       if (response.ok) {
         setSuccessMessage("Login successful!");
         localStorage.setItem("accessToken", data.token);
+        localStorage.setItem("name", data?.data?.name)
         setFormData({ email: "", password: "" });
         window.location.href = "/";
       } else {

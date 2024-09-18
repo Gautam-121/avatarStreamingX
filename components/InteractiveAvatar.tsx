@@ -58,6 +58,7 @@ export default function InteractiveAvatar() {
   const [newInput, setNewInput] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [gptoutput , setGptOutput] = useState<string>("");
+  const [startInitial, setStartInitial] = useState(false)
   const { input, setInput, handleSubmit } = useChat({
     onFinish: async (message) => {
       console.log("Response:", message);
@@ -122,7 +123,11 @@ export default function InteractiveAvatar() {
       console.log("res" , res)
       setData(res);
       setStream(avatar.current.mediaStream);
-      setIsSessionActive(true); // Set session as active
+      setIsSessionActive(true); // Set session as active 
+      setStartInitial(true)
+      // setTimeout(()=>{ 
+      //   console.log("Function called" , isSessionActive)
+      //   handleGetResponse("what is react")},1000)
     } catch (e:unknown) {
       alert("Limit Expired, Please try after some time")
       setDebug(
@@ -255,6 +260,79 @@ export default function InteractiveAvatar() {
     }
   }
 
+  useEffect(() => {
+    // Define an async function
+    const fetchData = async () => {
+      try {
+      setTimeout(async()=>{
+        if (isSessionActive && data?.sessionId && avatar.current && !isLoadingSession) {
+          setIsLoadingChat(false)
+          console.log("Enter inside the code", isSessionActive)
+          // Update the Gpt Output Showing
+          const name = localStorage.getItem("name")
+          const text = `Hi ${name}, great to have you here! Let me assist you in finding the perfect Hyundai. Would you like to know more about the Venue, Alcazar, or Creta?`
+          console.log("sessionId", data.sessionId);
+
+          const newUserMessage: ChatMessage = {
+            role: 'user',
+            content: text
+          };
+
+          const updatedHistory = [...chatHistory, newUserMessage];
+
+          
+          await avatar.current
+            .speak({
+              taskRequest: { text: text, sessionId: data?.sessionId },
+            })
+            .catch(async (e) => {
+              // Check if the error is an object with a response field
+              if (e && e.response) {
+                try {
+                  // Await the JSON response
+                  const error = await e.response.json();
+                  const errorMessage = error.message || e.response.statusText || "Unknown error occurred";
+                  console.log("Error code:", error.code, " - ", errorMessage);
+  
+                  if(error.code == 10005){
+                    alert("Session Expired")
+                    window.location.reload()
+                  }
+                  else if(error.code == 10015){
+                    alert("Limit Expired , Please come after some time")
+                    window.location.reload()
+                  }
+                  // Optionally, you can set the debug message here if needed
+                  setDebug(`Error code: ${error.code} - ${errorMessage}`);
+                } catch (jsonError) {
+                  // Handle any errors that occur while parsing the JSON
+                  console.log("Error parsing JSON response:", jsonError);
+                  setDebug("An error occurred while parsing the error response.");
+                }
+              } else {
+                // If it's not a structured response, handle it as a generic error
+                console.log("Error is ", e);
+                setDebug(e.message || "An unknown error occurred.");
+              }
+            });
+
+            setChatHistory(updatedHistory)
+          
+        } else {
+          setDebug("Avatar API not initialized");
+        }
+      },1500) 
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    // Immediately call the async function inside useEffect
+    fetchData();
+  
+    // Return nothing or a cleanup function
+  }, [isSessionActive, isLoadingSession]);  // The dependency array for the effect
+
   async function transcribeAudio(audioBlob: Blob) {
     try {
       // Convert Blob to File
@@ -297,12 +375,12 @@ export default function InteractiveAvatar() {
 
     const updatedHistory = [...chatHistory, newUserMessage];
 
-      const response = await fetch("/api/ai-response", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Ensure the content type is set to JSON
         },
-        body: JSON.stringify({ messages: inp ? inp : newInput }),
+        body: JSON.stringify({ messages: updatedHistory }),
       });
 
     //   const reader = response.body?.getReader();
@@ -355,8 +433,9 @@ export default function InteractiveAvatar() {
       console.log("data", dataFromApi);
       setChatHistory([...updatedHistory])
       
-      if (avatar.current) {
+      if (isSessionActive && avatar.current) {
         setIsLoadingChat(false)
+        console.log("Enter inside")
         // Update the Gpt Output Showing
         setGptOutput(sanitizedData)
         await avatar.current
