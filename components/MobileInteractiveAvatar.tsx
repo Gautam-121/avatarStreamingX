@@ -262,6 +262,7 @@ export default function InteractiveAvatar() {
     
     const fetchData = async () => {
   
+      console.log("useEffect triggered");
       
       try {
       setTimeout(async()=>{
