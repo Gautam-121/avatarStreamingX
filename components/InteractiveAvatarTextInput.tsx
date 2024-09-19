@@ -28,7 +28,7 @@ export default function InteractiveAvatarTextInput({
       return;
     }
     onSubmit();
-    setInput("");
+
   }
 
   return (

@@ -115,7 +115,7 @@ export default function InteractiveAvatar() {
           newSessionRequest: {
             quality: "medium",
             avatarName: "Tyler-incasualsuit-20220721",
-            voice: { voiceId: "1bd001e7e50f421d891986aad5158bc8" },
+            voice: { voiceId: "aee6c1539b7745a5a7e2f4e537d9bff4" },
             knowledgeBase: KNOWLWEDGE
           },
         },
@@ -482,6 +482,9 @@ export default function InteractiveAvatar() {
     }
   }
 
+  useEffect(()=>{console.log("New input", newInput);
+  },[newInput])
+
   return (
     <div className="w-full flex flex-col gap-4" id="avatar-card">
       <Card>
@@ -589,7 +592,7 @@ export default function InteractiveAvatar() {
         <CardFooter className="flex flex-col">
           {/* <Divider /> */}
             <InteractiveAvatarTextInput
-              label=" "
+              label={' '}
               placeholder="Chat with the avatar"
               input={newInput}
               onSubmit={() => {
@@ -599,8 +602,9 @@ export default function InteractiveAvatar() {
                   return;
                 }
                 // handleSubmit();
-                handleGetResponse("");
+                handleGetResponse(newInput);
               }}
+              
               setInput={setNewInput}
               loading={isLoadingChat}
               endContent={
