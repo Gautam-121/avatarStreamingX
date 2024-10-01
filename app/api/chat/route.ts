@@ -19,8 +19,9 @@ export async function POST(req: Request) {
 
   const stream = await groq.chat.completions.create({
     messages: enhancedMessages,
-    model: "llama3-8b-8192",
+    model: "llama-3.1-8b-instant",
     stream: true,
+    temperature:0,
   });
 
   return new Response(

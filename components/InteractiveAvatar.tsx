@@ -115,7 +115,7 @@ export default function InteractiveAvatar() {
           newSessionRequest: {
             quality: "medium",
             avatarName: "Tyler-incasualsuit-20220721",
-            voice: { voiceId: "aee6c1539b7745a5a7e2f4e537d9bff4" },
+            voice: { voiceId: "077ab11b14f04ce0b49b5f6e5cc20979" },
             knowledgeBase: KNOWLWEDGE
           },
         },
